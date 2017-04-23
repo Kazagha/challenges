@@ -3,6 +3,7 @@
 # http://pybit.es/codechallenge02.html
 
 from data import DICTIONARY, LETTER_SCORES, POUCH
+import random
 
 NUM_LETTERS = 7
 
@@ -19,9 +20,24 @@ def max_word_value(words):
     return max(words, key=calc_word_value)
 
 
-def main():
+def draw_letters():
+    """Draw letters randomly up to the hand limit (NUM_LETTERS)"""
+
+    return random.sample(POUCH, NUM_LETTERS)
+
+def get_possible_dict_words():
     pass
 
+def _get_permutations_draw():
+    pass
+
+def _validation():
+    pass
+
+
+def main():
+    draw_letters()
+    #print(POUCH)
 
 if __name__ == "__main__":
     main()
