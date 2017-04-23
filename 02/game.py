@@ -4,6 +4,7 @@
 
 from data import DICTIONARY, LETTER_SCORES, POUCH
 import random
+import itertools
 
 NUM_LETTERS = 7
 
@@ -28,15 +29,26 @@ def draw_letters():
 def get_possible_dict_words():
     pass
 
-def _get_permutations_draw():
-    pass
+def _get_permutations_draw(draw):
+    """Helper for get_possible_dict_words to get all permutations of draw letters.
+    Hint: use itertools.permutations"""
+
+    permu = [itertools.permutations(draw,i) for i in range(1,NUM_LETTERS + 1)]
+
+    permu_list = []
+    for p in permu:
+       for t in p:
+           permu_list.append(''.join(t))
+
+    return permu_list
 
 def _validation():
     pass
 
 
 def main():
-    draw_letters()
+    l = _get_permutations_draw(draw_letters())
+    print(l)
     #print(POUCH)
 
 if __name__ == "__main__":
