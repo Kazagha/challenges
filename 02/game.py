@@ -32,14 +32,9 @@ def get_possible_dict_words(draw):
     Checks each permutation against the dictionary
     """
 
-    perm_words = _get_permutations_draw(draw)
+    perm_words = [''.join(word).lower() for word in _get_permutations_draw(draw)]
 
-    dict_words = []
-    for word in perm_words:
-        if word.lower() in DICTIONARY:
-            dict_words.append(word)
-
-    return dict_words
+    return set(perm_words) & set(DICTIONARY)
 
 def _get_permutations_draw(draw):
     """Helper for get_possible_dict_words to get all permutations of draw letters.
