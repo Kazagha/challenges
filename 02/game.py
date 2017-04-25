@@ -70,9 +70,13 @@ def _validation(word, draw):
     for char in word.upper():
         if char not in draw:
             print('Word not in draw')
-            return False
+            raise ValueError
 
-    return word.upper() in get_possible_dict_words(draw)
+    if word.upper() in get_possible_dict_words(draw):
+        return True
+
+    raise ValueError
+
 
 def main():
     draw = draw_letters()
