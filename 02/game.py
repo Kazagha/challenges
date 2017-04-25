@@ -67,15 +67,17 @@ def input_word(draw):
 def _validation(word, draw):
     """Validations: 1) only use letters of draw, 2) valid dictionary word"""
 
+
     for char in word.upper():
-        if char not in draw:
-            print('Word not in draw')
+        if char in draw:
+            draw.remove(char)
+        else:
             raise ValueError
 
-    if word.upper() in get_possible_dict_words(draw):
-        return True
+    if word.upper() not in DICTIONARY:
+        raise ValueError
 
-    raise ValueError
+    return word
 
 
 def main():
