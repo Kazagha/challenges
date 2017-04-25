@@ -40,14 +40,10 @@ def _get_permutations_draw(draw):
     """Helper for get_possible_dict_words to get all permutations of draw letters.
     Hint: use itertools.permutations"""
 
-    permu = [itertools.permutations(draw,i) for i in range(1,NUM_LETTERS + 1)]
+    #permu = [itertools.permutations(draw,i) for i in range(1,NUM_LETTERS + 1)]
 
-    permu_list = []
-    for p in permu:
-       for t in p:
-           permu_list.append(''.join(t))
-
-    return permu_list
+    for i in range(1, NUM_LETTERS + 1):
+        yield from list(itertools.permutations(draw,i))
 
 def input_word(draw):
     """Ask player for a word and validate against draw.
@@ -69,7 +65,8 @@ def _validation(word, draw):
         else:
             raise ValueError
 
-    if word.upper() not in DICTIONARY:
+    if word.lower() not in DICTIONARY:
+        print(word)
         raise ValueError
 
     return word
