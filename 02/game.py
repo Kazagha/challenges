@@ -26,8 +26,15 @@ def draw_letters():
 
     return random.sample(POUCH, NUM_LETTERS)
 
-def get_possible_dict_words():
-    pass
+def get_possible_dict_words(draw):
+    perm_words = _get_permutations_draw(draw)
+
+    dict_words = []
+    for word in perm_words:
+        if word.lower() in DICTIONARY:
+            dict_words.append(word)
+
+    return dict_words
 
 def _get_permutations_draw(draw):
     """Helper for get_possible_dict_words to get all permutations of draw letters.
@@ -47,9 +54,11 @@ def _validation():
 
 
 def main():
-    l = _get_permutations_draw(draw_letters())
+    draw = draw_letters()
+    print(draw)
+    l = get_possible_dict_words(draw)
     print(l)
-    #print(POUCH)
+    print(max_word_value(l))
 
 if __name__ == "__main__":
     main()
