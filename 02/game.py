@@ -49,11 +49,12 @@ def input_word(draw):
     """Ask player for a word and validate against draw.
     Use _validation(word, draw) helper."""
 
-    player_word = input('Enter your word: ')
-    if _validation(player_word, draw):
-        print(f'Your word {player_word} scored {calc_word_value(word=player_word)} points')
-    else:
-        print(f'You have entered an invalid word')
+    while True:
+        player_word = input('Enter your word: ')
+        try:
+            return _validation(player_word, draw)
+        except ValueError:
+            print(f'You have entered an invalid word')
 
 def _validation(word, draw):
     """Validations: 1) only use letters of draw, 2) valid dictionary word"""
@@ -74,8 +75,9 @@ def _validation(word, draw):
 
 def main():
     draw = draw_letters()
-    print(f'Drawing hand: {draw}')
-    input_word(draw)
+    print(f'Drawing hand: ', ', '.join(char for char in draw))
+    player_word = input_word(draw)
+    print(f'Your word {player_word} scored {calc_word_value(word=player_word)} points')
 
     best_word = max_word_value(get_possible_dict_words(draw))
     print(f'The best possible word is {best_word} with a score of {calc_word_value(best_word)}')
