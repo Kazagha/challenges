@@ -32,14 +32,25 @@ def get_similarities(tags):
     Hint 1: compare each tag, use for in for, or product from itertools (already imported)
     Hint 2: use SequenceMatcher (imported) to calculate the similarity ratio
     Bonus: for performance gain compare the first char of each tag in pair and continue if not the same"""
+
     pass
 
+def similar_tags(tags):
+    """Return True if the pair of tags are similar 
+         
+         
+    """
+
+    return (SequenceMatcher(a=tags[0], b=tags[1]).ratio()) > SIMILAR
 
 if __name__ == "__main__":
 
     tags = get_tags()
     top_tags = get_top_tags(tags)
     print(top_tags)
+    print(', '.join(tag[0] for tag in top_tags))
+
+    print(similar_tags(('challenge', 'challenges')))
 
     """
     tags = get_tags()
@@ -49,6 +60,7 @@ if __name__ == "__main__":
         print('{:<20} {}'.format(tag, count))
     similar_tags = dict(get_similarities(tags))
     print()
+    
     print('* Similar tags:')
     for singular, plural in similar_tags.items():
         print('{:<20} {}'.format(singular, plural))
