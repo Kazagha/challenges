@@ -24,7 +24,7 @@ def get_top_tags(tags):
     """Get the TOP_NUMBER of most common tags
     Hint: use most_common method of Counter (already imported)"""
 
-    return Counter(tags).most_common(10)
+    return Counter(tags).most_common(TOP_NUMBER)
 
 
 def get_similarities(tags):
