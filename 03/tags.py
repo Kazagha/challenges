@@ -16,7 +16,7 @@ def get_tags():
     Hint: use TAG_HTML.findall"""
 
     with open(RSS_FEED) as rrs:
-        rrs_text = (' '.join(line for line in rrs))
+        rrs_text = (' '.join(line.lower().replace('-', ' ') for line in rrs))
 
     return TAG_HTML.findall(rrs_text)
 
@@ -33,7 +33,7 @@ def get_similarities(tags):
     Hint 2: use SequenceMatcher (imported) to calculate the similarity ratio
     Bonus: for performance gain compare the first char of each tag in pair and continue if not the same"""
 
-    pass
+    return ((x,y) for x in tags for y in tags if x != y if similar_tags((x,y)))
 
 def similar_tags(tags):
     """Return True if the pair of tags are similar 
@@ -47,10 +47,14 @@ if __name__ == "__main__":
 
     tags = get_tags()
     top_tags = get_top_tags(tags)
-    print(top_tags)
+    print('Top tags')
     print(', '.join(tag[0] for tag in top_tags))
 
-    print(similar_tags(('challenge', 'challenges')))
+    #print(similar_tags(('challenge', 'challenges')))
+    #print(list(t for t in get_similarities(set(tags))))
+    print("Similar Tags")
+    for t in get_similarities(set(tags)):
+        print(f'{repr(t[0]).ljust(25 )}{repr(t[1]).ljust(10)}')
 
     """
     tags = get_tags()
