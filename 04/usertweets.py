@@ -23,10 +23,15 @@ class UserTweets(object):
         Save the tweets as data/<handle>.csv"""
         # ...
 
+        # Setup OAuth for the Tweepy API
         auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
         auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
-
         self.api = tweepy.API(auth)
+
+        self.handle = handle
+        self.max_id = max_id
+
+        self._tweets = self._get_tweets()
 
         #self._tweets = list(self._get_tweets())
         #self._save_tweets()
@@ -37,7 +42,10 @@ class UserTweets(object):
         Use a list comprehension / generator to filter out fields
         id_str created_at text (optionally use namedtuple)"""
 
-        print(self.api.me())
+        user_tweets = self.api.user_timeline(self.handle, max_id=self.max_id, count=NUM_TWEETS)
+        for tweet in user_tweets:
+            #print(f'{line.id_str} {line.created_at} {line.text}')
+            yield Tweet(tweet.id_str, tweet.created_at, tweet.text)
 
 
     def _save_tweets(self):
@@ -58,7 +66,13 @@ class UserTweets(object):
 
 if __name__ == "__main__":
 
-    UserTweets('ee')
+    ut = UserTweets('pybites')
+
+    t = Tweet('id','date','str')
+    print(t)
+
+    for t in ut._tweets:
+        print(t)
 
     """
     for handle in ('pybites', 'techmoneykids', 'bbelderbos'):
