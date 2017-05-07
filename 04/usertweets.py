@@ -63,12 +63,11 @@ class UserTweets(object):
 
     def __len__(self):
         """See http://pybit.es/python-data-model.html"""
-        pass
+        return len(list(self._get_tweets()))
 
     def __getitem__(self, pos):
         """See http://pybit.es/python-data-model.html"""
-        pass
-
+        return list(self._get_tweets())[pos]
 
 if __name__ == "__main__":
 
