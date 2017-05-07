@@ -44,16 +44,22 @@ class UserTweets(object):
 
         user_tweets = self.api.user_timeline(self.handle, max_id=self.max_id, count=NUM_TWEETS)
         for tweet in user_tweets:
-            #print(f'{line.id_str} {line.created_at} {line.text}')
             yield Tweet(tweet.id_str, tweet.created_at, tweet.text)
-
 
     def _save_tweets(self):
         """Use the csv module (csv.writer) to write out the tweets.
         If you use a namedtuple get the column names with Tweet._fields.
         Otherwise define them as: id_str created_at text
         You can use writerow for the header, writerows for the rows"""
-        pass
+
+        with open(f'{os.path.dirname(os.path.realpath(__file__))}\\{DEST_DIR}\\tweets.{EXT}','w', newline='', encoding='utf8') as csvfile:
+
+            fieldnames = Tweet._fields
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writeheader()
+            for tweet in self._get_tweets():
+                writer.writerow({'id_str':tweet.id_str,'created_at':tweet.created_at,'text':tweet.text})
 
     def __len__(self):
         """See http://pybit.es/python-data-model.html"""
@@ -66,13 +72,11 @@ class UserTweets(object):
 
 if __name__ == "__main__":
 
-    ut = UserTweets('pybites')
+    user_tweets = UserTweets('pybites')
+    user_tweets._save_tweets()
 
-    t = Tweet('id','date','str')
-    print(t)
-
-    for t in ut._tweets:
-        print(t)
+    #for t in user_tweets._tweets:
+    #    print({'id_str':t.id_str})
 
     """
     for handle in ('pybites', 'techmoneykids', 'bbelderbos'):
