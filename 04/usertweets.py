@@ -30,6 +30,7 @@ class UserTweets(object):
 
         self.handle = handle
         self.max_id = max_id
+        self.output_file = f'{os.path.dirname(os.path.realpath(__file__))}\\{DEST_DIR}\\tweets.{EXT}'
 
         self._tweets = self._get_tweets()
 
@@ -52,7 +53,7 @@ class UserTweets(object):
         Otherwise define them as: id_str created_at text
         You can use writerow for the header, writerows for the rows"""
 
-        with open(f'{os.path.dirname(os.path.realpath(__file__))}\\{DEST_DIR}\\tweets.{EXT}','w', newline='', encoding='utf8') as csvfile:
+        with open(f'{self.output_file}','w', newline='', encoding='utf8') as csvfile:
 
             fieldnames = Tweet._fields
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -71,8 +72,10 @@ class UserTweets(object):
 
 if __name__ == "__main__":
 
-    user_tweets = UserTweets('pybites')
+    user_tweets = UserTweets('pybites', '819831370113351680')
     user_tweets._save_tweets()
+
+    #print(user_tweets.output_file)
 
     #for t in user_tweets._tweets:
     #    print({'id_str':t.id_str})
