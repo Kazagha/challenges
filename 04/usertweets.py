@@ -30,9 +30,12 @@ class UserTweets(object):
 
         self.handle = handle
         self.max_id = max_id
-        self.output_file = f'{os.path.dirname(os.path.realpath(__file__))}\\{DEST_DIR}\\tweets.{EXT}'
+        #self.output_file = f'{os.path.dirname(os.path.realpath(__file__))}\\{DEST_DIR}\\tweets.{EXT}'
 
-        self._tweets = self._get_tweets()
+        out_dir = os.path.join(DEST_DIR,self.handle)
+        self.output_file = f'{out_dir}.{EXT}'
+
+        self._tweets = list(self._get_tweets())
 
         #self._tweets = list(self._get_tweets())
         #self._save_tweets()
@@ -45,7 +48,7 @@ class UserTweets(object):
 
         user_tweets = self.api.user_timeline(self.handle, max_id=self.max_id, count=NUM_TWEETS)
         for tweet in user_tweets:
-            yield Tweet(tweet.id_str, tweet.created_at, tweet.text)
+            yield Tweet(tweet.id_str, tweet.created_at, tweet.text.replace('\n',''))
 
     def _save_tweets(self):
         """Use the csv module (csv.writer) to write out the tweets.
@@ -62,13 +65,16 @@ class UserTweets(object):
             for tweet in self._get_tweets():
                 writer.writerow({'id_str':tweet.id_str,'created_at':tweet.created_at,'text':tweet.text})
 
+            #writer.writerow(Tweet._fields)
+            #writer.writerows(self._tweets)
+
     def __len__(self):
         """See http://pybit.es/python-data-model.html"""
-        return len(list(self._get_tweets()))
+        return len(self._get_tweets())
 
     def __getitem__(self, pos):
         """See http://pybit.es/python-data-model.html"""
-        return list(self._get_tweets())[pos]
+        return self._tweets[pos]
 
 if __name__ == "__main__":
 
