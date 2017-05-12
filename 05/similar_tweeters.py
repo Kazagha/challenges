@@ -28,6 +28,7 @@ def _load_stop_words():
         return list(word.strip('\n') for word in words)
 
 def similar_tweeters(user1, user2):
+    # Load the list of stop words
     STOP_WORDS = _load_stop_words()
 
     # Fetch User Tweets
