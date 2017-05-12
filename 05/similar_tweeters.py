@@ -21,7 +21,7 @@ def _tokenize(tweets, STOP_WORDS):
 
     # Remove words that occur only once
     # Remove any of the words in the STOP_WORD list
-    return (word for word in tweet_dict)
+    return (word[0] for word in tweet_dict)
 
 def _load_stop_words():
     with open('stop_words.txt') as words:
@@ -32,14 +32,14 @@ def similar_tweeters(user1, user2):
 
     # Fetch User Tweets
     user1_tweets = usertweets.UserTweets(user1)
-    #user2_tweets = usertweets.UserTweets(user2)
+    user2_tweets = usertweets.UserTweets(user2)
 
     # Tokenize Tweets
-    user1_tweets = _tokenize((t.text for t in user1_tweets), STOP_WORDS)
+    user1_tweets = list(_tokenize((t.text for t in user1_tweets), STOP_WORDS))
+    user2_tweets = list(_tokenize((t.text for t in user2_tweets), STOP_WORDS))
 
-    print(list(user1_tweets))
-
-    #print(f'Word List Length {len(t)}')
+    # Return words that are in both lists
+    return (word_1 for word_1 in user1_tweets if word_1 in user2_tweets)
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
