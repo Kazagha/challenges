@@ -1,25 +1,26 @@
 import json
 from urllib import request
 
-def Spider(file_name=None):
+class Spider():
 
-    def _load_list(file_name):
+    def _load_list(self, file_name):
         pass
 
-    def _load_json(package_name):
+    def _load_json(self, package_name):
         pass
 
-    def _min_date(json):
+    def _min_date(self, json):
         pass
 
-    def load_feed(file_name):
+    def load_feed(self, file_name):
         pass
 
-    def export_feed(file_name):
+    def export_feed(self, file_name):
         pass
 
 if __name__ == "__main__":
-    pass
+    spi = Spider()
+    spi.load_feed('packages-simple.html')
 
     #url = "https://pypi.python.org/pypi/Scrapy/json"
     #response = request.urlopen(url)
