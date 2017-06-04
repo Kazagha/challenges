@@ -1,10 +1,16 @@
 import json
+import sys
+import re
 from urllib import request
 
+
 class Spider():
+    PATTERN = re.compile("'.*'")
 
     def _load_list(self, file_name):
-        pass
+        with open(file_name) as f:
+            for package in self.PATTERN.findall(f.read()):
+                yield(package.strip("'"))
 
     def _load_json(self, package_name):
         pass
@@ -13,7 +19,7 @@ class Spider():
         pass
 
     def load_feed(self, file_name):
-        pass
+        package_list = self._load_list(file_name)
 
     def export_feed(self, file_name):
         pass
