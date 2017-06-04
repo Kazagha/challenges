@@ -23,11 +23,17 @@ class Spider():
             print('Failed to load ', package_name)
 
     def _min_date(self, json):
-        pass
+
+        try:
+            return max(json['releases'][release][0]['upload_time'] for release in json['releases'])
+        except Exception:
+            print('Exception:')
 
     def load_feed(self, file_name):
         package_list = self._load_list(file_name)
-        package_dict = {package : self._load_json(package) for (package) in package_list}
+        package_dict = {package : self._min_date(self._load_json(package)) for (package) in package_list}
+
+        print(package_dict)
 
     def export_feed(self, file_name):
         pass
