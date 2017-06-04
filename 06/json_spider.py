@@ -10,3 +10,6 @@ if __name__ == "__main__":
 
     print((data['info']['version']))
     print((data['releases'][ver][0]['upload_time']))
+
+    # Determine the oldest release date of any verison
+    print(min(data['releases'][release][0]['upload_time'] for release in data['releases']))
