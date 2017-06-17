@@ -13,22 +13,23 @@ class Item:
 
     def get_value(self):
 
-        #if len(self.contents) == 0:
-        #    return self.value
-        #else:
-
-        #print(type(self.contents), len(self.contents), self.contents)
-
         return self.value + sum(item.get_value() for item in self.contents)
 
-    def print(self):
-        #print(len(self.contents))
+    def print(self, num_spaces=0):
+        if(num_spaces == 0):
+            print(f'{self.name.ljust(20)}${str(self.get_value()).rjust(5)}')
+        else:
+            print(f'{self.repChar("|",num_spaces)}-{self.name.ljust(19 - num_spaces)}${str(self.get_value()).rjust(5)}')
+
         for item in self.contents:
-            yield ('Item: ', item.name)
+            item.print(num_spaces=num_spaces + 1)
 
     def get_contents(self):
         for item in self.contents:
             yield item
+
+    def repChar(self, char, num):
+        return char * num
 
     def __len__(self):
         print('len')
