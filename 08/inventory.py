@@ -20,5 +20,7 @@ if __name__ == "__main__":
             selected_room.contents.append(Item(name, value=int(value), contents=[]))
         elif(user_input[0:2] == 'cd'):
             print('Changing directory...')
+            #print(f'{user_input[2:]}')
+            selected_room = selected_room.get_item(user_input[3:])
         elif(user_input == 'exit'):
             break
