@@ -4,12 +4,17 @@ class Item:
     description = ''
     value = 0
     contents = []
+    parent = None
 
-    def __init__(self, name, description=None, value = 0, contents=[]):
+    def __init__(self, name, description=None, value = 0, contents=[], parent=None):
         self.name = name
         self.description = description
         self.value = value
         self.contents = contents
+
+    def add(self, item):
+        item.parent = self
+        self.contents.append(item)
 
     def get_value(self):
 
@@ -35,7 +40,6 @@ class Item:
 
     def get_item(self, name):
         for item in self.contents:
-            print(item.name)
             if str(item.name) == str(name):
                 return item
         else:
