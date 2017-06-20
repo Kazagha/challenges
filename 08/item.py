@@ -22,16 +22,16 @@ class Item:
 
     def print(self, num_spaces=0):
         if(num_spaces == 0):
-            print(f'{self.name.ljust(20)}${str(self.value).rjust(5)}')
+            print(f'{self.name.ljust(30)}${str(self.value).rjust(5)}')
         else:
-            print(f'{self.repChar("|",num_spaces)}-{self.name.ljust(19 - num_spaces)}${str(self.get_value()).rjust(5)}')
+            print(f'{self.repChar("-",num_spaces)} {self.name.ljust(29 - num_spaces)}${str(self.value).rjust(5)}')
 
         for item in self.contents:
             item.print(num_spaces=num_spaces + 1)
 
     def print_summary(self, num_spaces=0):
         if(num_spaces == 0):
-            print(f'{self.name.ljust(20)}${str(self.get_value()).rjust(5)}')
+            print(f'{self.name.ljust(30)}${str(self.get_value()).rjust(5)}')
         else:
             print(f'{self.repChar("|",num_spaces)}-{self.name.ljust(19 - num_spaces)}${str(self.get_value()).rjust(5)}')
 
@@ -40,7 +40,7 @@ class Item:
 
     def get_item(self, name):
         for item in self.contents:
-            if str(item.name) == str(name):
+            if (item.name) == str(name):
                 return item
         else:
             print(f'{name} not found')
