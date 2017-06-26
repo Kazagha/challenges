@@ -11,10 +11,21 @@ PLACEHOLDER = '_'
 
 
 class Hangman(object):
-    pass 
 
-# or use functions ...
+    def __init__(self, word):
+        self.word = word
 
+    def game(self):
+
+        guess_num = 0
+
+        while (guess_num < ALLOWED_GUESSES):
+            print(HANG_GRAPHICS[guess_num])
+
+            input('Input letter: ')
+            guess_num = guess_num + 1
+        else:
+            print(f'You have died... the word was {self.word}')
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -24,3 +35,5 @@ if __name__ == '__main__':
     print(word)
 
     # init / call program
+    h = Hangman(word)
+    h.game()
