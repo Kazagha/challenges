@@ -44,23 +44,15 @@ class Hangman(object):
             if(self.guess_chars[-1] in (char.lower() for char in word)):
                 print(f'You guessed correctly')
 
-
-                #print(f'{set(self.guess_chars)} - {set(word.lower())}')
-
-                # Check if all the letters have been guessed, if so stop the game
-                #if (len(list({char for char in self.guess_chars} in (char for char in word.lower()))) == len(set(word.lower()))):
-                print(len({char for char in self.guess_chars if char in word}), len(set(word.lower())))
-                if(len({char for char in self.guess_chars if char in word}) == len(set(word.lower()))):
+                # Check if all the characters in the word have been guessed
+                if(len({char for char in self.guess_chars if char in word.lower()}) == len(set(word.lower()))):
+                    # All characters have been guessed, end the game
                     print(f'The word is {word}!')
                     break
             else:
                 # Incorrect guess, increment the count
                 print(f'There is no {self.guess_chars[-1].upper()}, try again')
                 wrong_guess_count = wrong_guess_count + 1
-
-            print(list({char for char in self.guess_chars}))
-            print({char for char in self.guess_chars if char in word})
-            print(set(word.lower()))
 
         else:
             print(f'You have died... the word was {self.word}')
@@ -70,10 +62,7 @@ if __name__ == '__main__':
         word = sys.argv[1]
     else:
         word = get_word()
-    print(word)
+    #print(word)
 
-    #print(list(char for char in ASCII if char not in ['a', 'b']))
-
-    # init / call program
     h = Hangman(word)
     h.game()
