@@ -24,7 +24,7 @@ class Item:
         if(num_spaces == 0):
             print(f'{self.name.ljust(30)}${str(self.value).rjust(5)}')
         else:
-            print(f'{self.repChar("-",num_spaces)} {self.name.ljust(29 - num_spaces)}${str(self.value).rjust(5)}')
+            print(f'{self.repChar(" ",num_spaces)}[]{self.name.ljust(29 - num_spaces)}${str(self.value).rjust(5)}')
 
         for item in self.contents:
             item.print(num_spaces=num_spaces + 1)
