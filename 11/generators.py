@@ -1,4 +1,5 @@
 import glob
+import re
 
 """
 Turn the following unix pipeline into Python code using generators
@@ -29,14 +30,25 @@ def gen_lines(files):
 
 
 def gen_grep(lines, pattern):
-    pass
+    for line in lines:
+        for match in pattern.finditer(line):
+            yield match.group(0)
+
 
 def gen_count(lines):
     pass
 
 
 if __name__ == "__main__":
+    regex_exp = r'(import|from) \b.*\b( import)*'
+    PATTERN = re.compile(regex_exp)
     # call the generators, passing one to the other
     files = gen_files('../*/*.py')
     lines = gen_lines(files)
+    lines = gen_grep(lines, PATTERN)
+
+
+    for line in lines:
+        print(line)
+
 
