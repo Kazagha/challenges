@@ -52,7 +52,7 @@ def gen_count(lines):
             _line = line
             line_count = 1
 
-def sort_lines(lines):
+def gen_sort(lines):
     for line in (sorted(lines, reverse=True)):
         yield line
 
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     lines = gen_lines(files)
     lines = gen_grep(lines, PATTERN)
     lines = gen_count(lines)
-    lines = sort_lines(lines)
+    lines = gen_sort(lines)
 
     for line in lines:
         print(line)
