@@ -28,27 +28,44 @@ def gen_lines(files):
             for line in text:
                 yield line
 
-
 def gen_grep(lines, pattern):
     for line in lines:
         for match in pattern.finditer(line):
-            yield match.group(0)
-
+            yield match.group(0).strip('import').strip(' ')
 
 def gen_count(lines):
-    pass
+    lines = sorted(lines)
 
+    _line = None
+    line_count = 0
+
+    for line in lines:
+
+        if(line == _line):
+            # line is the same as the _line, increment and do not return a value
+            line_count = line_count + 1
+        else:
+            # New line value, return the count and _line
+            yield f'{line_count} {_line}'
+
+            # Reset the count and _line variable
+            _line = line
+            line_count = 1
+
+def sort_lines(lines):
+    for line in (sorted(lines, reverse=True)):
+        yield line
 
 if __name__ == "__main__":
-    regex_exp = r'(import|from) \b.*\b( import)*'
+    #regex_exp = r'(import|from) \b.*\b( import)*'
+    regex_exp = r'import \b.*\b'
     PATTERN = re.compile(regex_exp)
     # call the generators, passing one to the other
     files = gen_files('../*/*.py')
     lines = gen_lines(files)
     lines = gen_grep(lines, PATTERN)
-
+    lines = gen_count(lines)
+    lines = sort_lines(lines)
 
     for line in lines:
         print(line)
-
-
