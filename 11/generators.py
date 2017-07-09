@@ -31,7 +31,8 @@ def gen_lines(files):
 def gen_grep(lines, pattern):
     for line in lines:
         for match in pattern.finditer(line):
-            yield match.group(0).strip('import').strip(' ')
+            #yield match.group(0).strip('import').strip(' ')
+            yield match.group(1)
 
 def gen_count(lines):
     lines = sorted(lines)
@@ -58,7 +59,8 @@ def gen_sort(lines):
 
 if __name__ == "__main__":
     #regex_exp = r'(import|from) \b.*\b( import)*'
-    regex_exp = r'import \b.*\b'
+    #regex_exp = r'import \b.*\b'
+    regex_exp = r'import (\w+)'
     PATTERN = re.compile(regex_exp)
     # call the generators, passing one to the other
     files = gen_files('../*/*.py')
