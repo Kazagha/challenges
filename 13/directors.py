@@ -1,5 +1,6 @@
 import csv
 from collections import defaultdict, namedtuple
+from decimal import Decimal,getcontext,ROUND_HALF_EVEN, ROUND_HALF_UP, ROUND_FLOOR, Context
 
 MOVIE_DATA = 'movie_metadata.csv'
 NUM_TOP_DIRECTORS = 20
@@ -7,6 +8,7 @@ MIN_MOVIES = 4
 MIN_YEAR = 1960
 
 Movie = namedtuple('Movie', 'title year score')
+getcontext().prec = 3
 
 def get_movies_by_director():
     '''Extracts all movies from csv and stores them in a dictionary
@@ -33,12 +35,27 @@ def get_movies_by_director():
 
 def get_average_scores(directors):
     '''Filter directors with < MIN_MOVIES and calculate averge score'''
-    pass
+
+    for director in directors:
+        if len(directors[director]) > MIN_MOVIES:
+            yield (
+                    director
+                    # Average (score divided by number of movies)
+                   ,  Decimal(sum(Decimal(movie[2]) for movie in directors[director])) /
+                     Decimal(len(list(movie[2] for movie in directors[director])))
+                    , Decimal(sum(Decimal(movie[2]) for movie in directors[director]))
+
+                    )
 
 
 def _calc_mean(movies):
     '''Helper method to calculate mean of list of Movie namedtuples'''
-    pass
+
+    # Calculate the mean - Sum of all movie ratings divided by the number of movies
+    # Round to 1 decimal place
+    return round(
+                (sum(Decimal(movie[2]) for movie in movies)) / (len(list(movie[2] for movie in movies)))
+            , 1)
 
 
 def print_results(directors):
@@ -57,8 +74,18 @@ def main():
     #directors = get_average_scores(directors)
     #print_results(directors)
 
+    movies_sergio = directors['Sergio Leone']
+    print('Sergio Leone' in directors)
+    print(_calc_mean(movies_sergio))
+
+    movies_nolan = directors['Christopher Nolan']
+    print(_calc_mean(movies_nolan))
+
+
     for d in directors:
-        print(f'{d} - {directors[d]}')
+        #print(f'{d} - {len(directors[d])} - {directors[d]}')
+        pass
+        #print(d)
 
 if __name__ == '__main__':
     main()
