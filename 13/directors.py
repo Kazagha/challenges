@@ -37,10 +37,11 @@ def get_average_scores(directors):
 
     for director in directors:
         if len(directors[director]) >= MIN_MOVIES:
-            yield (
-                    director
-                   , _calc_mean(directors[director])
-            )
+            #yield (
+            #        director
+            #       , _calc_mean(directors[director])
+            #)
+            return ((director, _calc_mean(directors[director])) for director in directors)
 
 
 def _calc_mean(movies):
@@ -53,32 +54,25 @@ def print_results(directors):
     '''Print directors ordered by highest average rating. For each director
     print his/her movies also ordered by highest rated movie.
     See http://pybit.es/codechallenge13.html for example output'''
+
+    for counter,director in enumerate(directors, 1):
+        if counter < 10:
+            print(f'{counter}{director}')
     fmt_director_entry = '{counter}. {director:<52} {avg}'
     fmt_movie_entry = '{year}] {title:<50} {score}'
     sep_line = '-' * 60
 
-
 def main():
     '''This is a template, feel free to structure your code differently.
     We wrote some tests based on our solution: test_directors.py'''
-    directors = get_movies_by_director()
-    #directors = get_average_scores(directors)
-    #print_results(directors)
 
-    #movies_sergio = directors['Sergio Leone']
-    #print(movies_sergio)
-    #movies_nolan = directors['Christopher Nolan']
-    #print(_calc_mean(movies_nolan))
-    #print(_calc_mean(movies_nolan) == Decimal(8.4))
+    directors = get_movies_by_director()
 
     directors = get_average_scores(directors)
+
+    directors = (sorted(list(directors), key=lambda x : x[1], reverse=True))
+
     print_results(directors)
-
-    #directors = get_average_scores(directors)
-    #for d in directors:
-        #print(f'{d} - {len(directors[d])} - {directors[d]}')
-
-    #    print(d)
 
 if __name__ == '__main__':
     main()
