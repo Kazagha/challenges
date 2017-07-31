@@ -3,8 +3,12 @@ import random
 class entity():
     def __init__(self, name, attack, health):
         self.name = name
-        self.attack = attack
+        self._attack = attack
         self.health = health
+
+    def attack(self, enemy):
+        attack_text = self._attack.do_attack(enemy)
+        print(f'{self.name} {attack_text}')
 
 class attack():
     def __init__(self, damage, attack_str):
@@ -12,21 +16,28 @@ class attack():
         self.attack_str = attack_str
 
     def do_attack(self, enemy):
-        print(f'{self.attack_str} doing {self.damage} points of damage')
-        enemy.health = enemy.health - self.damage
+        d = self.damage()
+        enemy.health = enemy.health - d
+        return f'{self.attack_str} doing {d} points of damage'
 
-def xdy(x,y):
+def _1d4():
+    return random.choice(range(1,4))
+
+def _1d12():
+    return random.choice(range(1,12))
+
+def _nDx(n, x):
     pass
 
 def fetch_enemy():
-    return entity('Goblin', attack(random.choice(range(1,4)), 'swings club'), 15)
+    return entity('Goblin', attack(_1d4, 'swings club'), 15)
 
 if __name__ == '__main__':
-    player = entity('Kazagha', attack(random.choice(range(1,12)),'swings sword'), 100)
+    player = entity('Kazagha', attack(_1d12,'swings sword'), 100)
     enemy = fetch_enemy()
 
     while(player.health > 0 and enemy.health > 0):
         print(f'{player.name} is at {player.health} points of health')
 
-        player.attack.do_attack(enemy)
-        enemy.attack.do_attack(player)
+        player.attack(enemy)
+        enemy.attack(player)
