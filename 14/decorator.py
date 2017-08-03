@@ -1,23 +1,31 @@
 import random
+from functools import wraps
 
 LOG_FILE = 'logging.txt'
 
 def logging(func):
+    '''A basic decorator to log function and arguments to file'''
+    @wraps(func) #this preserves function metadata
     def wrapper(*args, **kwargs):
 
         original_result = func(*args, **kwargs)
 
         with open(LOG_FILE, 'a') as f:
-            f.write(f'{func.__name__}; {args} \n')
-            if(original_result != None):
-                f.write(f'Return; {original_result}\n')
+            if (original_result != None):
+                f.write(f'{func.__name__}: {args} Return: {original_result} \n')
+            else:
+                f.write(f'{func.__name__}; {args} \n')
+                #f.write(f'Return; {original_result}\n')
 
         return original_result
     return wrapper
 
     return func
 
+@logging
 class entity():
+    '''Base class for all entities in the game'''
+
     @logging
     def __init__(self, name, attack, health):
         self.name = name
@@ -29,6 +37,7 @@ class entity():
         attack_text = self._attack.do_attack(enemy)
         print(f'{self.name} {attack_text}')
 
+#@logging
 class attack():
     def __init__(self, damage, attack_str):
         self.damage = damage
@@ -50,13 +59,16 @@ def _1d12():
 def _nDx(n, x):
     pass
 
-@logging
+#@logging
 def fetch_enemy():
+    '''Fetch a basic enemy for the player to fight'''
     return entity('Goblin', attack(_1d4, 'swings club'), 15)
 
 if __name__ == '__main__':
     player = entity('Kazagha', attack(_1d12,'swings sword'), 100)
-    enemy = logging(fetch_enemy)()
+    enemy = fetch_enemy()
+
+    print(f'Enemy: {logging(player).__doc__}')
 
     while(player.health > 0 and enemy.health > 0):
         print(f'{player.name} is at {player.health} points of health')
